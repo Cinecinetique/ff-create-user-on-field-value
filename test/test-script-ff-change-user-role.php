@@ -18,7 +18,7 @@ class ScriptChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
 
     $main = new \Cinecinetique\Wordpress\FFPro\ChangeUserRoleMain () ;
 
-    \WP_Mock::expectActionAdded( 'frm_after_create_entry',
+    \WP_Mock::expectActionAdded( 'frm_after_update_entry',
                                   array ($this->isInstanceOf ('FFChangeUserRole'), 'changeUserRole') ,
                                   45, 2
                                 );

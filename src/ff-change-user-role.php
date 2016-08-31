@@ -24,7 +24,7 @@ Class ChangeUserRoleMain {
 
     $ff_plugin_class = new \Cinecinetique\Wordpress\FFPro\ChangeUserRole($wpdb, $frmdb);
 
-    add_action('frm_after_create_entry', array ($ff_plugin_class, 'changeUserRole'), 45, 2);
+    add_action('frm_after_update_entry', array ($ff_plugin_class, 'changeUserRole'), 45, 2);
 
   }
 }
