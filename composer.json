@@ -5,7 +5,7 @@
         "phpunit/dbunit": "> 1.2"
     },
     "autoload": {
-      "classmap": ["src/ff-create-user-on-field-value.php", "src/classes/"]
+      "classmap": ["src/ff-change-user-role.php", "src/classes/"]
     },
     "require-dev": {
         "10up/wp_mock": "dev-master"
