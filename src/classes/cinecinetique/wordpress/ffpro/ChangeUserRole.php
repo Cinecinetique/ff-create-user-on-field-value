@@ -25,7 +25,24 @@ Class ChangeUserRole {
         return $_POST['item_meta'][$paid_field_id];
 
     }
+
+    public function formKeyToId($field_key) {
+        $form_id = $this->get_wpdb()->get_var("SELECT id FROM wp_frm_forms WHERE form_key='{$field_key}'");
+        return $form_id;
+
+    }
+
+
     public function changeUserRole ($entry_id,$form_id) {
+
+        //happy path:
+        //get field value for Paid field
+        //get field value for User id
+        //get user_data
+        //get user role
+        //update role
+
+
 
         // $target_form_id = $this->get_wpdb()->get_var("SELECT id FROM {this->get_wpdb()->prefix}frm_forms WHERE form_key='jfykn'");
         //
