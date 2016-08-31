@@ -1,0 +1,13 @@
+{
+    "require": {
+        "phpunit/phpunit": "5.3.*",
+        "phpunit/php-invoker": "^1.1",
+        "phpunit/dbunit": "> 1.2"
+    },
+    "autoload": {
+      "classmap": ["src/ff-create-user-on-field-value.php", "src/classes/"]
+    },
+    "require-dev": {
+        "10up/wp_mock": "dev-master"
+    }
+}
