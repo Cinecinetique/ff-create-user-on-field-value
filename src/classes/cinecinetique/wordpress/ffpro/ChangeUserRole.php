@@ -45,7 +45,7 @@ Class ChangeUserRole {
         $paid_value = $this->retrieve_field_value($target_field_key);
         //get field value for User id
         $user_id = $this->retrieve_field_value($target_user_key);
-        if ($user_id) {
+        if ($paid_value && $user_id) {
             //get user_data
             $user = get_userdata($user_id);
             //set user role
