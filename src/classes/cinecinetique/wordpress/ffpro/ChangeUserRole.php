@@ -45,11 +45,13 @@ Class ChangeUserRole {
         $paid_value = $this->retrieve_field_value($target_field_key);
         //get field value for User id
         $user_id = $this->retrieve_field_value($target_user_key);
-        //get user_data
-        $user = get_userdata($user_id);
-        //set user role
-        if ( $user && ! $user->has_cap('administrator') ) {
-                $user->set_role( $role );
+        if ($user_id) {
+            //get user_data
+            $user = get_userdata($user_id);
+            //set user role
+            if ( $user && ! $user->has_cap('administrator') ) {
+                    $user->set_role( $role );
+            }
         }
 
 
