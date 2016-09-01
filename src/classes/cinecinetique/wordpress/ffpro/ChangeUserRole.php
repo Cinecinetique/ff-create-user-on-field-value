@@ -54,7 +54,7 @@ Class ChangeUserRole {
 
         // get field value for User id
         $user_id = $this->retrieve_field_value($user_id_field_key);
-        if ($value_to_check && $user_id) {
+        if ($user_id) {
             // get user_data. This is a core Wordpress function
             $user = get_userdata($user_id);
             // set user role only if user exists and is not an admin, don't want to demote an admin
