@@ -148,4 +148,44 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function test_should_not_change_role_if_no_user() {
+        $user = m::mock('user') ;
+        $rolechanger = $this->getMockBuilder('\Cinecinetique\Wordpress\FFPro\ChangeUserRole')
+            ->disableOriginalConstructor()
+            ->setMethods(array('retrieve_field_value','get_wpdb'))
+            ->getMock();
+        $entry_id = 54 ;
+        $form_id = 20 ;
+
+
+        $rolechanger->expects($this->exactly(2))
+            ->method('retrieve_field_value')
+            ->withConsecutive(
+                 array($this->equalTo('f0ra1')),
+                 array($this->equalTo('ry194'))
+            )
+            ->will($this->onConsecutiveCalls('yes', 100));
+
+
+        \WP_Mock::wpFunction( 'get_userdata', array(
+            'args' => 100,
+            'times' => 1,
+            'return' => null
+        ) );
+
+        $user->shouldReceive('has_cap')
+            ->with(
+            "administrator"
+            )
+            ->times(0); //because easy evaluation of ($user && ! has_cap('administrator')), if $user null, has_cap won't be called
+
+        $user->shouldReceive('set_role')
+            ->with(
+            'parent'
+            )
+            ->times(0) ;
+
+        $rolechanger->changeUserRole($entry_id, $form_id);
+    }
+
 }
