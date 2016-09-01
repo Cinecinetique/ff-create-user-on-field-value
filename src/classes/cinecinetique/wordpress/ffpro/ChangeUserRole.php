@@ -37,6 +37,7 @@ Class ChangeUserRole {
     public function changeUserRole ($entry_id,$form_id) {
 
         // form & fields keys of interest. We work with keys instead of ids as ids change as forms are deployed on different environments
+        // TODO: move these five variables into a setting panel
         $field_to_check_key = 'f0ra1';
         $user_id_field_key = 'ry194' ;
         $target_form_key = 'jfykn' ;
