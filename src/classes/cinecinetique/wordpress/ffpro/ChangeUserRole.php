@@ -7,6 +7,7 @@ Class ChangeUserRole {
     private $_wpdb;
     private $_frmdb;
 
+
     public function __construct($wpdb,$frmdb) {
         $this->_wpdb = $wpdb;
         $this->_frmdb = $frmdb;
@@ -35,21 +36,20 @@ Class ChangeUserRole {
 
     public function changeUserRole ($entry_id,$form_id) {
 
+        $target_field_key = 'f0ra1';
+        $target_user_key = 'ry194' ;
+
         //happy path:
         //get field value for Paid field
+        $paid_value = $this->retrieve_field_value($target_field_key);
         //get field value for User id
+        $user_id = $this->retrieve_field_value($target_user_key);
         //get user_data
-        //get user role
-        //update role
+        $user = get_userdata($user_id);
+        //set user role
+        $user->set_role('Parent');
 
 
-
-        // $target_form_id = $this->get_wpdb()->get_var("SELECT id FROM {this->get_wpdb()->prefix}frm_forms WHERE form_key='jfykn'");
-        //
-        //
-        //
-        // if($paid_field_value === 'No')
-        //     return; //don't continue if the field for Paid doesn't say yes
     }
 
 }

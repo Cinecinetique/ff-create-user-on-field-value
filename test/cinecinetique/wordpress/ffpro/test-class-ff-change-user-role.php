@@ -65,36 +65,40 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    // function test_change_user_role_happy_path () {
-    //     $wpdb = m::mock('wpdb') ;
-    //     $frmdb = new \stdClass ;
-    //     $entry_id = 54 ;
-    //     $form_id = 20 ;
-    //
-    //     $sut = new \Cinecinetique\Wordpress\FFPro\ChangeUserRole ($wpdb, $frmdb) ;
-    //
-    //     $wpdb->shouldReceive('retrieve_field_value')
-    //         ->with(
-    //         "f0ra1"
-    //         )
-    //         ->times(1)
-    //         ->andReturn("Yes") ;
-    //
-    //
-    //     $wpdb->shouldReceive('retrieve_field_value')
-    //         ->with(
-    //         "ry194"
-    //         )
-    //         ->times(1)
-    //         ->andReturn(100) ;
-    //
-    //     \WP_Mock::wpFunction( 'get_userdata', array(
-    //         'args' => 100,
-    //         'times' => 1,
-    //         'return' => array( 'role' => 'Subscriber')
-    //     ) );
-    //
-    //     $sut->changeUserRole($entry_id, $form_id);
-    // }
+    function test_change_user_role_happy_path () {
+        $wpdb = m::mock('wpdb') ;
+        $frmdb = new \stdClass ;
+        $user = m::mock('user') ;
+        $rolechanger = $this->getMockBuilder('\Cinecinetique\Wordpress\FFPro\ChangeUserRole')
+            ->disableOriginalConstructor()
+            ->setMethods(array('retrieve_field_value','get_wpdb'))
+            ->getMock();
+        $entry_id = 54 ;
+        $form_id = 20 ;
+
+
+        $rolechanger->expects($this->exactly(2))
+            ->method('retrieve_field_value')
+            ->withConsecutive(
+                 array($this->equalTo('f0ra1')),
+                 array($this->equalTo('ry194'))
+            )
+            ->will($this->onConsecutiveCalls('yes', 100));
+
+
+        \WP_Mock::wpFunction( 'get_userdata', array(
+            'args' => 100,
+            'times' => 1,
+            'return' => $user
+        ) );
+
+        $user->shouldReceive('set_role')
+            ->with(
+            "Parent"
+            )
+            ->times(1) ;
+
+        $rolechanger->changeUserRole($entry_id, $form_id);
+    }
 
 }
