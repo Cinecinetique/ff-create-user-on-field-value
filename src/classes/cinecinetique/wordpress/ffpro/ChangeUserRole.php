@@ -36,28 +36,30 @@ Class ChangeUserRole {
 
     public function changeUserRole ($entry_id,$form_id) {
 
-        $target_field_key = 'f0ra1';
-        $target_user_key = 'ry194' ;
+        // form & fields keys of interest. We work with keys instead of ids as ids change as forms are deployed on different environments
+        $field_to_check_key = 'f0ra1';
+        $user_id_field_key = 'ry194' ;
         $target_form_key = 'jfykn' ;
-        $target_role = 'parent';
+        $new_role = 'parent';
         $wanted_value = 'Yes';
 
+        // we return immediately if the current form being processed is not the one we want to act on
         if ( $form_id != $this->formKeyToId($target_form_key) )
             return;
 
-        //get field value for Paid field
-        $value_to_check = $this->retrieve_field_value($target_field_key);
+        // get field value for field to check
+        $value_to_check = $this->retrieve_field_value($field_to_check_key);
         if ($wanted_value != $value_to_check)
             return;
 
-        //get field value for User id
-        $user_id = $this->retrieve_field_value($target_user_key);
+        // get field value for User id
+        $user_id = $this->retrieve_field_value($user_id_field_key);
         if ($value_to_check && $user_id) {
-            //get user_data
+            // get user_data. This is a core Wordpress function
             $user = get_userdata($user_id);
-            //set user role
+            // set user role only if user exists and is not an admin, don't want to demote an admin
             if ( $user && ! $user->has_cap('administrator') ) {
-                    $user->set_role( $target_role );
+                    $user->set_role( $new_role );
             }
         }
 
