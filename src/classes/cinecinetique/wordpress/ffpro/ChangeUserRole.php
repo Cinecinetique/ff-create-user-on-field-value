@@ -38,7 +38,11 @@ Class ChangeUserRole {
 
         $target_field_key = 'f0ra1';
         $target_user_key = 'ry194' ;
+        $target_form_key = 'jfykn' ;
         $role = 'parent';
+
+        if ( $form_id != $this->formKeyToId($target_form_key) )
+            return;
 
         //happy path:
         //get field value for Paid field

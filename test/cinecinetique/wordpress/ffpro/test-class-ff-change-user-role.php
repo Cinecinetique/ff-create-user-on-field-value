@@ -69,10 +69,15 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
         $user = m::mock('user') ;
         $rolechanger = $this->getMockBuilder('\Cinecinetique\Wordpress\FFPro\ChangeUserRole')
             ->disableOriginalConstructor()
-            ->setMethods(array('retrieve_field_value','get_wpdb'))
+            ->setMethods(array('retrieve_field_value','formKeyToId'))
             ->getMock();
         $entry_id = 54 ;
-        $form_id = 20 ;
+        $current_form_id = 42 ;
+
+        $rolechanger->expects($this->once())
+            ->method('formKeyToId')
+            ->with( $this->equalTo('jfykn') )
+            ->will( $this->returnValue(42) );
 
 
         $rolechanger->expects($this->exactly(2))
@@ -103,17 +108,22 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
             )
             ->times(1) ;
 
-        $rolechanger->changeUserRole($entry_id, $form_id);
+        $rolechanger->changeUserRole($entry_id, $current_form_id);
     }
 
     function test_should_not_change_role_for_admin() {
         $user = m::mock('user') ;
         $rolechanger = $this->getMockBuilder('\Cinecinetique\Wordpress\FFPro\ChangeUserRole')
             ->disableOriginalConstructor()
-            ->setMethods(array('retrieve_field_value','get_wpdb'))
+            ->setMethods(array('retrieve_field_value','formKeyToId'))
             ->getMock();
         $entry_id = 54 ;
-        $form_id = 20 ;
+        $current_form_id = 42 ;
+
+        $rolechanger->expects($this->once())
+            ->method('formKeyToId')
+            ->with( $this->equalTo('jfykn') )
+            ->will( $this->returnValue(42) );
 
 
         $rolechanger->expects($this->exactly(2))
@@ -144,7 +154,7 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
             )
             ->times(0) ;
 
-        $rolechanger->changeUserRole($entry_id, $form_id);
+        $rolechanger->changeUserRole($entry_id, $current_form_id);
 
     }
 
@@ -152,10 +162,15 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
         $user = m::mock('user') ;
         $rolechanger = $this->getMockBuilder('\Cinecinetique\Wordpress\FFPro\ChangeUserRole')
             ->disableOriginalConstructor()
-            ->setMethods(array('retrieve_field_value','get_wpdb'))
+            ->setMethods(array('retrieve_field_value','formKeyToId'))
             ->getMock();
         $entry_id = 54 ;
-        $form_id = 20 ;
+        $current_form_id = 42 ;
+
+        $rolechanger->expects($this->once())
+            ->method('formKeyToId')
+            ->with( $this->equalTo('jfykn') )
+            ->will( $this->returnValue(42) );
 
 
         $rolechanger->expects($this->exactly(2))
@@ -185,17 +200,22 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
             )
             ->times(0) ;
 
-        $rolechanger->changeUserRole($entry_id, $form_id);
+        $rolechanger->changeUserRole($entry_id, $current_form_id);
     }
 
     function test_should_not_change_role_if_no_user_id() {
         $user = m::mock('user') ;
         $rolechanger = $this->getMockBuilder('\Cinecinetique\Wordpress\FFPro\ChangeUserRole')
             ->disableOriginalConstructor()
-            ->setMethods(array('retrieve_field_value','get_wpdb'))
+            ->setMethods(array('retrieve_field_value','formKeyToId'))
             ->getMock();
         $entry_id = 54 ;
-        $form_id = 20 ;
+        $current_form_id = 42 ;
+
+        $rolechanger->expects($this->once())
+            ->method('formKeyToId')
+            ->with( $this->equalTo('jfykn') )
+            ->will( $this->returnValue(42) );
 
 
         $rolechanger->expects($this->exactly(2))
@@ -225,17 +245,21 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
             )
             ->times(0) ;
 
-        $rolechanger->changeUserRole($entry_id, $form_id);
+        $rolechanger->changeUserRole($entry_id, $current_form_id);
     }
     function test_should_not_change_role_if_null_field_value() {
         $user = m::mock('user') ;
         $rolechanger = $this->getMockBuilder('\Cinecinetique\Wordpress\FFPro\ChangeUserRole')
             ->disableOriginalConstructor()
-            ->setMethods(array('retrieve_field_value','get_wpdb'))
+            ->setMethods(array('retrieve_field_value','formKeyToId'))
             ->getMock();
         $entry_id = 54 ;
-        $form_id = 20 ;
+        $current_form_id = 42 ;
 
+        $rolechanger->expects($this->once())
+            ->method('formKeyToId')
+            ->with( $this->equalTo('jfykn') )
+            ->will( $this->returnValue(42) );
 
         $rolechanger->expects($this->exactly(2))
             ->method('retrieve_field_value')
@@ -265,6 +289,31 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
             )
             ->times(0) ;
 
-        $rolechanger->changeUserRole($entry_id, $form_id);
+        $rolechanger->changeUserRole($entry_id, $current_form_id);
+    }
+
+    function test_should_not_change_role_if_wrong_form () {
+        $user = m::mock('user') ;
+        $rolechanger = $this->getMockBuilder('\Cinecinetique\Wordpress\FFPro\ChangeUserRole')
+            ->disableOriginalConstructor()
+            ->setMethods(array('formKeyToId'))
+            ->getMock();
+        $entry_id = 54 ;
+        $current_form_id = 20 ;
+
+        $rolechanger->expects($this->once())
+            ->method('formKeyToId')
+            ->with( $this->equalTo('jfykn') )
+            ->will( $this->returnValue(42) );
+
+
+        $user->shouldReceive('set_role')
+            ->with(
+            'parent'
+            )
+            ->times(0) ;
+
+
+        $rolechanger->changeUserRole($entry_id, $current_form_id);
     }
 }
