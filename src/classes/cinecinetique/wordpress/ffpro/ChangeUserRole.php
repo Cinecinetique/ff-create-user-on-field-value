@@ -38,6 +38,7 @@ Class ChangeUserRole {
 
         $target_field_key = 'f0ra1';
         $target_user_key = 'ry194' ;
+        $role = 'parent';
 
         //happy path:
         //get field value for Paid field
@@ -47,7 +48,9 @@ Class ChangeUserRole {
         //get user_data
         $user = get_userdata($user_id);
         //set user role
-        $user->set_role('Parent');
+        if ( $user && ! $user->has_cap('administrator') ) {
+                $user->set_role( $role );
+        }
 
 
     }
