@@ -39,7 +39,7 @@ Class ChangeUserRole {
         $target_field_key = 'f0ra1';
         $target_user_key = 'ry194' ;
         $target_form_key = 'jfykn' ;
-        $role = 'parent';
+        $target_role = 'parent';
 
         if ( $form_id != $this->formKeyToId($target_form_key) )
             return;
@@ -54,7 +54,7 @@ Class ChangeUserRole {
             $user = get_userdata($user_id);
             //set user role
             if ( $user && ! $user->has_cap('administrator') ) {
-                    $user->set_role( $role );
+                    $user->set_role( $target_role );
             }
         }
 

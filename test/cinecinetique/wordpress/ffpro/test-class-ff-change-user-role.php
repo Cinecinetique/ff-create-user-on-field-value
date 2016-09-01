@@ -316,4 +316,8 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
 
         $rolechanger->changeUserRole($entry_id, $current_form_id);
     }
+
+    // function test_should_not_change_role_if_wrong_value () {
+    //
+    // }
 }
