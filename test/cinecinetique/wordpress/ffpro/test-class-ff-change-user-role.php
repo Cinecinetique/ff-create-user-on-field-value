@@ -66,8 +66,6 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
     }
 
     function test_change_user_role_happy_path () {
-        $wpdb = m::mock('wpdb') ;
-        $frmdb = new \stdClass ;
         $user = m::mock('user') ;
         $rolechanger = $this->getMockBuilder('\Cinecinetique\Wordpress\FFPro\ChangeUserRole')
             ->disableOriginalConstructor()
