@@ -86,7 +86,7 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
                  array($this->equalTo('f0ra1')),
                  array($this->equalTo('ry194'))
             )
-            ->will($this->onConsecutiveCalls('yes', 100));
+            ->will($this->onConsecutiveCalls('Yes', 100));
 
 
         \WP_Mock::wpFunction( 'get_userdata', array(
@@ -132,7 +132,7 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
                  array($this->equalTo('f0ra1')),
                  array($this->equalTo('ry194'))
             )
-            ->will($this->onConsecutiveCalls('yes', 100));
+            ->will($this->onConsecutiveCalls('Yes', 100));
 
 
         \WP_Mock::wpFunction( 'get_userdata', array(
@@ -179,7 +179,7 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
                  array($this->equalTo('f0ra1')),
                  array($this->equalTo('ry194'))
             )
-            ->will($this->onConsecutiveCalls('yes', 100));
+            ->will($this->onConsecutiveCalls('Yes', 100));
 
 
         \WP_Mock::wpFunction( 'get_userdata', array(
@@ -224,7 +224,7 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
                  array($this->equalTo('f0ra1')),
                  array($this->equalTo('ry194'))
             )
-            ->will($this->onConsecutiveCalls('yes', null));
+            ->will($this->onConsecutiveCalls('Yes', null));
 
 
         \WP_Mock::wpFunction( 'get_userdata', array(
@@ -247,50 +247,7 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
 
         $rolechanger->changeUserRole($entry_id, $current_form_id);
     }
-    function test_should_not_change_role_if_null_field_value() {
-        $user = m::mock('user') ;
-        $rolechanger = $this->getMockBuilder('\Cinecinetique\Wordpress\FFPro\ChangeUserRole')
-            ->disableOriginalConstructor()
-            ->setMethods(array('retrieve_field_value','formKeyToId'))
-            ->getMock();
-        $entry_id = 54 ;
-        $current_form_id = 42 ;
 
-        $rolechanger->expects($this->once())
-            ->method('formKeyToId')
-            ->with( $this->equalTo('jfykn') )
-            ->will( $this->returnValue(42) );
-
-        $rolechanger->expects($this->exactly(2))
-            ->method('retrieve_field_value')
-            ->withConsecutive(
-                 array($this->equalTo('f0ra1')),
-                 array($this->equalTo('ry194'))
-            )
-            ->will($this->onConsecutiveCalls(null, 100));
-
-
-        \WP_Mock::wpFunction( 'get_userdata', array(
-            'args' => 100,
-            'times' => 1,
-            'return' => $user
-        ) );
-
-        $user->shouldReceive('has_cap')
-            ->with(
-            "administrator"
-            )
-            ->times(0)
-            ->andReturn(false) ;
-
-        $user->shouldReceive('set_role')
-            ->with(
-            'parent'
-            )
-            ->times(0) ;
-
-        $rolechanger->changeUserRole($entry_id, $current_form_id);
-    }
 
     function test_should_not_change_role_if_wrong_form () {
         $user = m::mock('user') ;
@@ -317,7 +274,32 @@ class ChangeUserRoleTest extends \PHPUnit_Framework_TestCase {
         $rolechanger->changeUserRole($entry_id, $current_form_id);
     }
 
-    // function test_should_not_change_role_if_wrong_value () {
-    //
-    // }
+    function test_should_not_change_role_if_wrong_value () {
+        $user = m::mock('user') ;
+        $rolechanger = $this->getMockBuilder('\Cinecinetique\Wordpress\FFPro\ChangeUserRole')
+            ->disableOriginalConstructor()
+            ->setMethods(array('formKeyToId', 'retrieve_field_value'))
+            ->getMock();
+        $entry_id = 54 ;
+        $current_form_id = 42 ;
+
+        $rolechanger->expects($this->once())
+            ->method('formKeyToId')
+            ->with( $this->equalTo('jfykn') )
+            ->will( $this->returnValue(42) );
+
+        $rolechanger->expects($this->once())
+            ->method('retrieve_field_value')
+            ->with( $this->equalTo('f0ra1') )
+            ->will( $this->returnValue('foobar') );
+
+        $user->shouldReceive('set_role')
+            ->with(
+            'parent'
+            )
+            ->times(0) ;
+
+
+        $rolechanger->changeUserRole($entry_id, $current_form_id);
+    }
 }

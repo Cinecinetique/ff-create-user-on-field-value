@@ -40,16 +40,19 @@ Class ChangeUserRole {
         $target_user_key = 'ry194' ;
         $target_form_key = 'jfykn' ;
         $target_role = 'parent';
+        $wanted_value = 'Yes';
 
         if ( $form_id != $this->formKeyToId($target_form_key) )
             return;
 
-        //happy path:
         //get field value for Paid field
-        $paid_value = $this->retrieve_field_value($target_field_key);
+        $value_to_check = $this->retrieve_field_value($target_field_key);
+        if ($wanted_value != $value_to_check)
+            return;
+
         //get field value for User id
         $user_id = $this->retrieve_field_value($target_user_key);
-        if ($paid_value && $user_id) {
+        if ($value_to_check && $user_id) {
             //get user_data
             $user = get_userdata($user_id);
             //set user role
